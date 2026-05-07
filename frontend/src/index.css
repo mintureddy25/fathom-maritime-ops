@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Reserve scrollbar space so navigation doesn't shift, but keep the bar invisible */
+  scrollbar-gutter: stable;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+body {
+  background: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.10) 0px, transparent 55%),
+              radial-gradient(at 100% 100%, rgba(20, 184, 166, 0.06) 0px, transparent 55%),
+              #030712;
+  color: #cbd5e1;
+  min-height: 100vh;
+}
+
+/* Slim scrollbar on inner scrollable elements (tables, modals) */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+/* Form controls — dark by default */
+input, select, textarea {
+  background-color: #020617;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.18);
+}
+input::placeholder, textarea::placeholder { color: #475569; }
+
+/* Tremor card surfaces in dark mode get a glassy treatment */
+.tremor-Card-root {
+  backdrop-filter: blur(8px);
+}
