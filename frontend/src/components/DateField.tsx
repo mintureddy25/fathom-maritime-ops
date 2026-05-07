@@ -1,5 +1,3 @@
-import { DatePicker } from '@tremor/react';
-
 interface Props {
   value?: Date;
   onChange: (d: Date | undefined) => void;
@@ -8,16 +6,24 @@ interface Props {
   maxDate?: Date;
 }
 
-export function DateField({ value, onChange, placeholder = 'Select date', minDate, maxDate }: Props) {
+const toISODate = (d?: Date) => {
+  if (!d) return '';
+  const tz = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - tz).toISOString().slice(0, 10);
+};
+
+export function DateField({ value, onChange, minDate, maxDate }: Props) {
   return (
-    <DatePicker
-      value={value}
-      onValueChange={onChange}
-      placeholder={placeholder}
-      enableYearNavigation
-      minDate={minDate}
-      maxDate={maxDate}
-      className="w-full"
+    <input
+      type="date"
+      value={toISODate(value)}
+      min={toISODate(minDate)}
+      max={toISODate(maxDate)}
+      onChange={(e) => {
+        const v = e.target.value;
+        onChange(v ? new Date(`${v}T00:00:00`) : undefined);
+      }}
+      className="w-full rounded-md px-3 py-2 text-sm"
     />
   );
 }
