@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Spinner } from './Spinner';
@@ -10,9 +12,15 @@ export function Modal({
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg';
 }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" onClick={onClose} />
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 overflow-y-auto py-8">
+      <div className="fixed inset-0 bg-slate-950/75 backdrop-blur-sm" onClick={onClose} />
       <div className={clsx(
         'relative w-full bg-slate-900 ring-1 ring-slate-800 rounded-2xl shadow-2xl shadow-black/50',
         size === 'sm' && 'max-w-sm',
@@ -27,7 +35,8 @@ export function Modal({
         </header>
         <div className="p-5">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
